@@ -70,18 +70,36 @@ def get_project_by_title(title):
     db_cursor = db.session.execute(QUERY, {'title': title})
 
     # set cursor equal to row, fetchall
-    row = db_cursor.fetchall()
+    rows = db_cursor.fetchall()
 
     # print out results
     #.format(access data by indexing into row)
-    for tup in row:
-        print "Here is your project: {title}\nDescription: {description}".format(title=tup[0], description=tup[1])
+    for row in rows:
+        print "Here is your project: {title}\nDescription: {description}".format(title=row[0], description=row[1])
     #print row
 
 
-def get_grade_by_github_title(github, title):
+def get_grade_by_github_title(my_github, my_title):
     """Print grade student received for a project."""
-    pass
+    
+    #create a query string  
+    #create cursor to connect/execute query string to db value
+    #set cursor equal to the row
+    #fetchone grade 
+    #print out grade
+
+    QUERY = """
+        SELECT grade
+        FROM grades
+        WHERE student_github = :db_github AND project_title = :db_title    
+    """
+    #values map to functions parameters
+    db_cursor = db.session.execute(QUERY, {'db_github': my_github, 'db_title': my_title})
+
+    row = db_cursor.fetchone()
+
+    #index into row to retrieve value
+    print 'Here is your grade: {row}'.format(row = row[0])
 
 
 def assign_grade(github, title, grade):
