@@ -60,7 +60,23 @@ def make_new_student(first_name, last_name, github):
 
 def get_project_by_title(title):
     """Given a project title, print information about the project."""
-    pass
+    QUERY = """
+        SELECT title, description 
+        FROM projects 
+        WHERE title = :title
+        """
+
+    # create query object = cursor (connect query and pass in dictionary values)
+    db_cursor = db.session.execute(QUERY, {'title': title})
+
+    # set cursor equal to row, fetchall
+    row = db_cursor.fetchall()
+
+    # print out results
+    #.format(access data by indexing into row)
+    for tup in row:
+        print "Here is your project: {title}\nDescription: {description}".format(title=tup[0], description=tup[1])
+    #print row
 
 
 def get_grade_by_github_title(github, title):
@@ -103,7 +119,7 @@ def handle_input():
 if __name__ == "__main__":
     connect_to_db(app)
 
-    handle_input()
+    #handle_input()
 
     # To be tidy, we close our database connection -- though,
     # since this is where our program ends, we'd quit anyway.
